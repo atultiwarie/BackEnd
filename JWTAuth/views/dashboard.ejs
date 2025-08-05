@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center text-gray-800">
+
+    <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center mb-6">Welcome to Your Dashboard</h1>
+
+        <% if (user) { %>
+            <p class="text-center text-lg mb-4">Hello, <span class="font-semibold">
+                    <%= user.username %>
+                </span>!</p>
+            <p class="text-center text-sm text-gray-600 mb-6">User ID: <%= user.id %>
+            </p>
+            <% } else { %>
+                <p class="text-center text-red-600">No user information found.</p>
+                <% } %>
+
+                    <form action="/logout" method="POST" class="flex justify-center">
+                        <button type="submit"
+                            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+                            Logout
+                        </button>
+                    </form>
+    </div>
+
+</body>
+
+</html>
