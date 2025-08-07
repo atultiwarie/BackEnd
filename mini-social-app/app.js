@@ -28,7 +28,7 @@ app.use(cookieParser());
 
 // Home route
 app.get("/", (req, res) => {
-  res.send("Welcome to the Home Page");
+  res.render("home");
 });
 
 // Register route
@@ -105,7 +105,7 @@ app.post("/login", async (req, res) => {
 
 app.get("/logout", (req, res) => {
   res.clearCookie("token");
-  res.redirect("/login");
+  res.redirect("/");
 });
 
 // auth middleware
@@ -124,22 +124,8 @@ function isLoggedIn(req, res, next) {
 
 // Profile route
 app.get("/profile", isLoggedIn, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).populate({
-      path: "posts",
-      populate: {
-        path: "user",
-        model: "User",
-      },
-    });
-
-    const posts = user.posts;
-
-    res.render("profile", { user, posts });
-  } catch (err) {
-    console.error("Error loading profile:", err);
-    res.status(500).send("Error loading profile");
-  }
+  let user = await User.findById(req.user.id).populate("posts");
+  res.render("profile", { user });
 });
 
 // Post route
@@ -154,6 +140,18 @@ app.post("/posts", isLoggedIn, async (req, res) => {
   user.posts.push(post._id);
   await user.save();
   res.redirect("/profile");
+});
+
+// delete post route
+app.get("/posts/delete/:id", isLoggedIn, async (req, res) => {
+ const postId = req.params.id;
+ try {
+    await postModel.findByIdAndDelete(postId)
+    res.redirect("/profile");
+ } catch (error) {
+    console.error("Error deleting post:", error);
+    return res.status(500).send("Internal Server Error");    
+ }
 });
 
 app.listen(PORT, () => {

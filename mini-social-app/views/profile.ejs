@@ -31,21 +31,18 @@
             </form>
         </div>
         <!-- User's Posts List -->
-        <% if (posts.length> 0) { %>
-            <% posts.forEach(post=> { %>
+        <% if (user.posts.length> 0) { %>
+            <% user.posts.reverse().forEach(post=> { %>
                 <div class="bg-white p-5 rounded-xl shadow-sm mb-5">
                     <div class="flex justify-between items-center mb-2">
                         <h2 class="text-lg font-semibold">
                             <%= post.user.username %>
                         </h2>
                         <% if (post.user._id.toString()===user._id.toString()) { %>
-
-
-                            <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-                                <button type="submit" class="text-red-500 hover:underline text-sm">
+                                <a href="/posts/delete/<%= post._id %>" class="text-red-500 hover:underline text-sm"
+                                    onclick="return confirm('Delete this post?')">
                                     Delete
-                                </button>
-                            </form>
+                                </a>
                             <% } %>
                     </div>
                     <p class="text-gray-800 mb-2">

@@ -4,60 +4,75 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
+    <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100 p-6 font-sans">
-    <div class="max-w-3xl mx-auto">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold">Welcome, <%= user.name %> 👋</h1>
-            <a href="/logout"
-                class="text-red-600 font-medium border border-red-600 px-4 py-2 rounded hover:bg-red-600 hover:text-white transition">
-                Logout
-            </a>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 md:p-12 rounded-2xl shadow-xl max-w-sm w-full m-4">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Create an Account</h1>
+            <p class="text-gray-500">Please fill out the form to get started</p>
         </div>
 
-        <!-- Post Creation Form -->
-        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
-            <form action="/posts" method="POST">
-                <textarea name="content" rows="3" placeholder="What's on your mind?"
-                    class="resize-none outline-none w-full border border-gray-300 p-4 rounded-lg" required></textarea>
-                <button type="submit"
-                    class="mt-4 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                    Post
-                </button>
-            </form>
-        </div>
+        <form action="/register" method="POST">
 
-        <!-- User's Posts -->
-        <div class="bg-white p-6 rounded-xl shadow-md">
-            <h2 class="text-xl font-semibold mb-4">Your Posts</h2>
+            <!-- Name Field -->
+            <div class="mb-6">
+                <label for="name" class="block text-gray-700 text-sm font-medium mb-2">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                    required>
+            </div>
 
-            <% if (posts.length> 0) { %>
-                <% posts.forEach(post=> { %>
-                    <div class="bg-gray-50 p-4 rounded-lg mb-4 shadow">
-                        <div class="flex justify-between items-center mb-1">
-                            <h3 class="font-semibold text-lg">
-                                <%= post.user.username %>
-                            </h3>
-                            <% if (post.user._id.toString()===user._id.toString()) { %>
-                                <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-                                    <button type="submit" class="text-red-500 hover:underline text-sm">Delete</button>
-                                </form>
-                                <% } %>
-                        </div>
-                        <p class="text-gray-800">
-                            <%= post.content %>
-                        </p>
-                        <p class="text-sm text-gray-500 mt-1">❤️ Likes: <%= post.likes.length %>
-                        </p>
-                    </div>
-                    <% }) %>
-                        <% } else { %>
-                            <p class="text-center text-gray-600">You haven't posted anything yet.</p>
-                            <% } %>
+            <!-- Age Field -->
+            <div class="mb-6">
+                <label for="age" class="block text-gray-700 text-sm font-medium mb-2">Age</label>
+                <input type="number" id="age" name="age" min="1" placeholder="Enter your age"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                    required>
+            </div>
+
+            <!-- Username Field -->
+            <div class="mb-6">
+                <label for="username" class="block text-gray-700 text-sm font-medium mb-2">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                    required>
+            </div>
+
+            <!-- Email Field -->
+            <div class="mb-6">
+                <label for="email" class="block text-gray-700 text-sm font-medium mb-2">Email address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                    required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                    required>
+            </div>
+
+            <!-- Register Button -->
+            <button type="submit"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                Register
+            </button>
+        </form>
+
+        <!-- Login Link -->
+        <div class="mt-6 text-center text-sm">
+            <p class="text-gray-600">Already have an account? <a href="/login" class="text-blue-600 hover:underline">Log
+                    in</a></p>
         </div>
     </div>
 </body>
