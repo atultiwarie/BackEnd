@@ -39,8 +39,7 @@
                             <%= post.user.username %>
                         </h2>
                         <% if (post.user._id.toString()===user._id.toString()) { %>
-                                <a href="/posts/delete/<%= post._id %>" class="text-red-500 hover:underline text-sm"
-                                    onclick="return confirm('Delete this post?')">
+                                <a href="/posts/delete/<%= post._id %>" class="text-red-500 hover:underline text-sm">
                                     Delete
                                 </a>
                             <% } %>
@@ -48,8 +47,15 @@
                     <p class="text-gray-800 mb-2">
                         <%= post.content %>
                     </p>
-                    <p class="text-sm text-gray-500">❤️ Likes: <%= post.likes %>
-                    </p>
+                    <small class="text-sm block text-gray-500">
+                        Likes: <%= post.likes.length %>❤️
+                    </small>
+                    <a href="posts/like/<%= post._id %>" class="text-blue-500 hover:underline text-sm">
+                       <%= post.likes.indexOf(user._id) === -1 ? 'Like' : 'Unlike' %>
+                    </a>
+                    <span class="text-gray-400 text-sm ml-2">
+                        <a href="/edit/<%= post._id %>" class="text-blue-500 hover:underline text-sm">Edit</a>
+                    </span>
                 </div>
                 <% }) %>
                     <% } else { %>

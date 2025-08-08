@@ -154,6 +154,38 @@ app.get("/posts/delete/:id", isLoggedIn, async (req, res) => {
  }
 });
 
+
+// like post route
+
+app.get('/posts/like/:id', isLoggedIn,async (req,res)=>{
+  const id = req.params.id;
+  let post = await postModel.findById(id)
+   if (post.likes.indexOf(req.user.id) === -1) {
+     post.likes.push(req.user.id);
+   } else {
+     post.likes.splice(post.likes.indexOf(req.user.id), 1);
+   }
+   await post.save();
+   res.redirect("/profile");
+})
+
+// edit post route
+
+app.get('/edit/:id',isLoggedIn , async(req,res)=>{
+  const {id}=req.params
+  let post = await postModel.findById(id)
+  res.render('edit',{post})
+})
+
+app.post('/edit/:id',isLoggedIn,async (req,res) => {
+  const id = req.params.id
+  const content = req.body.content
+  let post = await postModel.findByIdAndUpdate(id,
+            {content},
+            {new:true})
+  res.redirect('/profile')
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on port : http://localhost:${PORT}`);
 });
