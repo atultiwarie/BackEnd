@@ -8,6 +8,8 @@ const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const postModel = require("./models/post");
 
+const upload = require("./config/multerConfig");
+
 // MongoDB connection
 const connectDB = require("./config/db");
 connectDB();
@@ -18,6 +20,9 @@ const User = require("./models/user-model");
 // Middleware for ejs
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+// upload middleware
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // json parser middleware
 app.use(express.json());
@@ -184,6 +189,21 @@ app.post('/edit/:id',isLoggedIn,async (req,res) => {
             {content},
             {new:true})
   res.redirect('/profile')
+})
+
+
+// Profile picture upload route
+
+
+app.get('/profile/upload',(req,res)=>{
+    res.render('upload')
+})
+
+app.post('/upload',isLoggedIn, upload.single('file') ,async (req,res)=>{
+   let user= await User.findById(req.user.id)
+   user.profilePic = req.file.filename
+   await user.save()
+   res.redirect('/profile')
 })
 
 app.listen(PORT, () => {

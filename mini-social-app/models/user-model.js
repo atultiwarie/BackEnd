@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema(
         ref: "Post",
       },
     ],
+    profilePic: {
+      type: String,
+      default:
+        "https://strichardchurch.org/wp-content/uploads/2023/02/istockphoto-1167753373-612x612-1.jpg",
+    },
   },
   { timestamps: true }
 );
